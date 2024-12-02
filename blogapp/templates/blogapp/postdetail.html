@@ -1,0 +1,21 @@
+{% extends 'blogapp/base.html' %}
+{% block title %}Blogs{% endblock title %}
+{% block content %} 
+    
+<h1>{{ post.title }}</h1> <h3>{{ post.post_date}}</h3> 
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+    <a href="{% url 'editpost' post.pk %}">Edit</a>
+    <a href="{% url 'deletepost' post.pk %}">Delete</a> <br/>
+    {% endif %}
+{% endif %}
+<p>{{ post.author}}</p>
+<hr>
+<p>{{ post.body }}</p>
+<br/>
+<form action="{% url 'like' post.pk %}" method="POST">
+    {% csrf_token %}
+    <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button> 
+</form>
+<a href="{% url 'home' %}" class="btn btn-primary">Back</a>
+{% endblock %}

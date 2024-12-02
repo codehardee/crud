@@ -1,0 +1,23 @@
+{% extends 'blogapp/base.html' %}
+{% block content %}
+
+
+{% if category_posts %}
+    <h1>{{ cats }}</h1>
+    <ul>
+    {% for post in category_posts %}
+    <li>
+        <a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a> - {{ post.author }} - {{post.category}}
+        {% if user.is_authenticated %}
+        <small> <a href="{% url 'editpost' post.pk %}">Edit</a> - 
+        <a href="{% url 'deletepost' post.pk %}">Delete</a></small><br/>
+        {% endif %}
+        {{ post.body|slice:":200" }}
+    </li>
+    {% endfor %}
+    </ul>
+{% else %}
+Sorry this category doesn't exists!
+{% endif %}
+
+{% endblock %}
